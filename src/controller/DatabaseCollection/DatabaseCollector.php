@@ -3,22 +3,32 @@
 
 class DatabaseCollector
 {
-    private static $host = "localhost";
-    private static $user = "root";
-    private static $password = "";
-    private static $db = "SMJ_DB";
-    private static $port = "3306";
-    private static $socket = null;
+    private const DB_HOST = "localhost";
+    private const DB_USER = "root";
+    private const DB_PW = "";
+    private const DB_NAME = "SMJ_DB";
+    private const DB_PORT = "3306";
+    private const DB_SOCKET = null;
+
+    private static $instance = null;
     private static $con = null;
 
-    private function __construct() {}
-
-    private function getConnection()
+    private function __construct()
     {
-        if (!isset($con)) {
-            $con = mysqli_connect(self::$host, self::$user, self::$password, self::$db, self::$port) or die("MySQL Connection failed");
+        self::$con = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PW, self::DB_NAME);
+    }
+
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
         }
 
-        return con;
+        return self::$instance;
+    }
+
+    public function getConnection()
+    {
+        return self::$con;
     }
 }
