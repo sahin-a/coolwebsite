@@ -3,16 +3,17 @@
 
 class Auth
 {
+    // TODO: schauen ob die Kagge hier überhaupt funktioniert, ist noch pseudo shit
     public static function validate_creds($username, $password)
     {
-        // TODO: schauen ob die Kagge hier überhaupt funktioniert
         $con = DatabaseCollector::getInstance()->getConnection();
+
         if ($stmt = $con->prepare("SELECT password FROM users WHERE username=?")) {
             $stmt->bind_param(1, $username);
             $result = $stmt->execute();
             $hash = $result[0];
 
-            printf("%s", $hash);
+            printf("%s", $result);
 
             if (password_verify($password, $hash)) {
                 $stmt->close();
@@ -22,5 +23,15 @@ class Auth
         }
 
         return false;
+    }
+
+    public static function register_account($username, $password)
+    {
+        $con = DatabaseCollector::getInstance()->getConnection();
+        if ($stmt = $con->prepare("SELECT * FROM users WHERE username=?")) {
+            $stmt->bind_param(1, $username);
+            $result = $stmt.execute();
+            printf("%s", $result);
+        }
     }
 }
