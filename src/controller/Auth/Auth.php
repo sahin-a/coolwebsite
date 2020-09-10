@@ -7,15 +7,19 @@ class Auth
     {
         // TODO: schauen ob die Kagge hier überhaupt funktioniert
         $con = DatabaseCollector::getInstance()->getConnection();
-        $stmt = $con->prepare("SELECT password FROM users WHERE username=?");
-        $stmt->bind_param(1, $username);
-        $result = $stmt->execute();
-        $hash = $result[0];
+        if ($stmt = $con->prepare("SELECT password FROM users WHERE username=?")) {
+            $stmt->bind_param(1, $username);
+            $result = $stmt->execute();
+            $hash = $result[0];
 
-        printf("%s", $hash);
+            printf("%s", $hash);
 
-        if (password_verify($password, $hash))
-            return true;
+            if (password_verify($password, $hash)) {
+                $stmt->close();
+
+                return true;
+            }
+        }
 
         return false;
     }
