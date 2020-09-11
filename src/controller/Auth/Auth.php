@@ -1,37 +1,41 @@
 <?php
-
+include_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
 
 class Auth
 {
-    // TODO: schauen ob die Kagge hier überhaupt funktioniert, ist noch pseudo shit
     public static function validate_creds($username, $password)
     {
+        // TODO: Muss noch fertig gestellt werden
         $con = DatabaseCollector::getInstance()->getConnection();
+        $query = "SELECT username, password FROM users WHERE username=? AND password=?";
+        $password = password_hash($password, PASSWORD_ARGON2ID);
 
-        if ($stmt = $con->prepare("SELECT password FROM users WHERE username=?")) {
-            $stmt->bind_param(1, $username);
-            $result = $stmt->execute();
-            $hash = $result[0];
+        if ($stmt = mysqli_prepare($con, $query)) {
+            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+            $result = mysqli_stmt_get_result($stmt);
 
-            printf("%s", $result);
+            printf("COUNT: %s", $result->field_count);
 
-            if (password_verify($password, $hash)) {
-                $stmt->close();
-
-                return true;
-            }
+            return true;
         }
 
         return false;
     }
 
+    // Sollte funktionieren, müssen nur noch die Exceptions catchen und eine Message anzeigen
     public static function register_account($username, $password)
     {
         $con = DatabaseCollector::getInstance()->getConnection();
-        if ($stmt = $con->prepare("SELECT * FROM users WHERE username=?")) {
-            $stmt->bind_param(1, $username);
-            $result = $stmt.execute();
-            printf("%s", $result);
+        $query = "INSERT INTO users (username, password) VALUES(?, ?)";
+        $password = password_hash($password, PASSWORD_ARGON2ID);
+
+        if ($stmt = mysqli_prepare($con, $query)) {
+            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+            mysqli_stmt_execute($stmt);
+
+            return true;
         }
+
+        return false;
     }
 }
