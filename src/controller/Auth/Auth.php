@@ -5,18 +5,17 @@ class Auth
 {
     public static function validate_creds($username, $password)
     {
-        // TODO: Muss noch fertig gestellt werden
+        // TODO: Passwort aus Query holen und vergleichen mit User Input
         $con = DatabaseCollector::getInstance()->getConnection();
-        $query = "SELECT username, password FROM users WHERE username=? AND password=?";
-        $password = password_hash($password, PASSWORD_ARGON2ID);
+        $query = "SELECT password FROM users WHERE username=?";
 
         if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+            mysqli_stmt_bind_param($stmt, "ss", $username);
             $result = mysqli_stmt_get_result($stmt);
+            $hash = null; // <- here
 
-            printf("COUNT: %s", $result->field_count);
-
-            return true;
+            if (password_verify($password, $hash))
+                return true;
         }
 
         return false;
