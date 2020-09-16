@@ -3,25 +3,27 @@ include_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/Dat
 
 class Auth
 {
-    public static function validate_creds($username, $password)
+    public static function validate_credentials($username, $password)
     {
-        // TODO: Passwort aus Query holen und vergleichen mit User Input
         $con = DatabaseCollector::getInstance()->getConnection();
         $query = "SELECT password FROM users WHERE username=?";
 
         if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "ss", $username);
-            $result = mysqli_stmt_get_result($stmt);
-            $hash = null; // <- here
+            mysqli_stmt_bind_param($stmt, "s", $username);
 
-            if (password_verify($password, $hash))
-                return true;
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $storedHash = $row['password'];
+
+                if (password_verify($password, $storedHash))
+                    return true;
+            }
         }
 
         return false;
     }
 
-    // Sollte funktionieren, müssen nur noch die Exceptions catchen und eine Message anzeigen
     public static function register_account($username, $password)
     {
         $con = DatabaseCollector::getInstance()->getConnection();
@@ -30,9 +32,9 @@ class Auth
 
         if ($stmt = mysqli_prepare($con, $query)) {
             mysqli_stmt_bind_param($stmt, "ss", $username, $password);
-            mysqli_stmt_execute($stmt);
 
-            return true;
+            if (mysqli_stmt_execute($stmt))
+                return true;
         }
 
         return false;

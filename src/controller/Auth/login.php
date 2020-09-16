@@ -7,7 +7,7 @@ $password = $_POST["password"];
 printf("START");
 
 if (isset($username) && isset($password)) {
-    if (Auth::validate_creds($username, $password)) {
+    if (Auth::validate_credentials($username, $password)) {
         // login successful
       printf("SUCCESS");
     }
