@@ -5,7 +5,7 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 printf("START");
-
+// TODO: weiterleiten
 if (isset($username) && isset($password)) {
     if (Auth::validate_credentials($username, $password)) {
         // login successful

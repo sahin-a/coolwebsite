@@ -5,10 +5,9 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 printf("START");
-
+// TODO: weiterleiten
 if (isset($username) && isset($password)) {
     if (Auth::register_account($username, $password)) {
-        // registration successful
         printf("SUCCESS");
     }
 } else {

@@ -10,8 +10,8 @@ class DatabaseCollector
     private const DB_PORT = "3306";
     private const DB_SOCKET = null;
 
-    private static $instance = null;
-    private static $con = null;
+    private static ?DatabaseCollector $instance = null;
+    private static ?mysqli $con = null;
 
     private function __construct()
     {
