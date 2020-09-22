@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registration</title>
+    <?php
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+
+    if (Auth::isLoggedIn()) {
+        header("Location: userpanel.php");
+        exit;
+    }
+    ?>
 </head>
 <body>
 <div id="container">
@@ -10,7 +18,7 @@
         <table id="child" border="1">
             <tr>
                 <th>
-                    <form action="index.html" method="post">
+                    <form action="index.php">
                         <input type="submit" value="back to login">
                     </form>
                 </th>
@@ -18,7 +26,7 @@
         </table>
     </div>
     <table border="1" class="child">
-        <form action="src/controller/Auth/register.php" method="post">
+        <form action="controller/Auth/register.php" method="post">
             <tr>
                 <th><label>Username: </label></th>
                 <th><input type="text" name="username" required><br></th>

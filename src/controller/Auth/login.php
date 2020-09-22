@@ -1,19 +1,20 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"]."/src/controller/Auth/Auth.php";
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
 
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-printf("START");
-// TODO: weiterleiten
 if (isset($username) && isset($password)) {
     if (Auth::validate_credentials($username, $password)) {
-        // login successful
-      printf("SUCCESS");
+        session_start();
+        $_SESSION["loggedIn"] = true;
+        $_SESSION["username"] = $username;
+
+        header("Location: ../../userpanel.php");
+        exit;
     }
-} else {
-    printf("ERROR");
 }
 
-printf("END");
-die();
+header("Location: ../../index.php");
+exit;
+

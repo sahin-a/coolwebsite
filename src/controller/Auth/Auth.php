@@ -1,8 +1,18 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
 
 class Auth
 {
+    public static function isLoggedIn()
+    {
+        session_start();
+
+        if (isset($_SESSION) && isset($_SESSION["loggedIn"]))
+            return true;
+
+        return false;
+    }
+
     public static function validate_credentials($username, $password)
     {
         $con = DatabaseCollector::getInstance()->getConnection();
@@ -14,9 +24,9 @@ class Auth
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
-                $storedHash = $row['password'];
+                $storedHash = $row["password"];
 
-                if (password_verify($password, $storedHash))
+                if (isset($storedHash) && password_verify($password, $storedHash))
                     return true;
             }
         }

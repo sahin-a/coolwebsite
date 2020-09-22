@@ -1,6 +1,5 @@
 <?php
 
-
 class DatabaseCollector
 {
     private const DB_HOST = "localhost";
