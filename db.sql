@@ -4,5 +4,5 @@ CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(32) NOT NULL,
     password VARCHAR(256) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id, username)
 );
