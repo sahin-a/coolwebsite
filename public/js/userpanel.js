@@ -32,9 +32,10 @@ function loadVideos() {
     /*var rootName = $(location).attr('pathname');
     rootName.indexOf(1);
     rootName = rootName.split("/")[1];*/
+    /* "/" + rootName*/
 
     var href = location.href;
-    var absolutePath = protocol + host + /* "/" + rootName*/ + "/api/youtube/videocollection.php";
+    var absolutePath = protocol + host + "/api/youtube/videocollection.php";
 
     $.get(absolutePath, function (data) {
             for (var i = 0; i < data.length; i++) {
