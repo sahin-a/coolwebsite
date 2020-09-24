@@ -1,8 +1,18 @@
 CREATE DATABASE SMJ_DB;
 USE SMJ_DB;
+
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(32) NOT NULL,
-    password VARCHAR(256) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    user VARCHAR(255) NOT NULL,
+    register_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id, username)
+);
+
+CREATE TABLE youtubeVideos (
+    submitter VARCHAR(32) NOT NULL,
+    videoId VARCHAR(11) NOT NULL,
+    message VARCHAR(64),
+    submit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -18,8 +18,19 @@ if (Auth::isLoggedIn()) {
 </head>
 <body class="bg-dark align-self-center m-2 p-2">
 <div class="container">
+    <div class="form-row m-1 p-1">
+        <img class="m-1 p-1"
+             src="https://resources.jetbrains.com/storage/products/phpstorm/img/meta/phpstorm_logo_300x300.png"
+             width="50" height="50">
+    </div>
     <form action="controller/Auth/login.php" method="post">
         <div class="form-row m-1 p-1">
+            <?php
+            if (isset($_SESSION) && isset($_SESSION["msg"])) {
+                echo $_SESSION["msg"];
+                unset($_SESSION["msg"]);
+            }
+            ?>
             <div class="input-group mt-2">
                 <input class="form-control" type="text" name="username" placeholder="Username">
                 <input class="form-control" type="password" name="password" placeholder="Password">
