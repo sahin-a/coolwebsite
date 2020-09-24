@@ -16,3 +16,4 @@ CREATE TABLE youtubeVideos (
     message VARCHAR(64),
     submit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+

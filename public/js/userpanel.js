@@ -25,16 +25,16 @@ function updateVideo() {
         "                        allowfullscreen></iframe>");
 }
 
-async function loadVideos() {
+function loadVideos() {
     var protocol = window.location.protocol + "//";
     var host = window.location.host;
 
-    var rootName = $(location).attr('pathname');
+    /*var rootName = $(location).attr('pathname');
     rootName.indexOf(1);
-    rootName = rootName.split("/")[1];
+    rootName = rootName.split("/")[1];*/
 
     var href = location.href;
-    var absolutePath = protocol + host + "/" + rootName + "/api/youtube/videocollection.php";
+    var absolutePath = protocol + host + /* "/" + rootName*/ + "/api/youtube/videocollection.php";
 
     $.get(absolutePath, function (data) {
             for (var i = 0; i < data.length; i++) {
