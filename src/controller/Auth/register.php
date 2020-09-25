@@ -9,14 +9,20 @@ $passwordConfirm = $_POST["passwordConfirm"];
 if (isset($username) && isset($password) && isset($passwordConfirm)) {
     session_start();
 
-    if ($password === $passwordConfirm) {
-        if (Auth::register_account($username, $password)) {
-            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::SUCCESS, "Account creation was successful :)");
+    $pattern = "/^[a-zA-z0-9]{3,32}$/";
+
+    if (preg_match($pattern, $username, $matches)) {
+        if ($password === $passwordConfirm) {
+            if (Auth::register_account($username, $password)) {
+                $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::SUCCESS, "Account creation was successful :)");
+            } else {
+                $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Failed to register your account :(");
+            }
         } else {
-            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Failed to register your account :(");
+            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Passwords don't match :/");
         }
     } else {
-        $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Passwords don't match :/");
+        $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Your username is invalid :/");
     }
 
     header("Location: ../../registration.php");

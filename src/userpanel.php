@@ -22,7 +22,7 @@ $user = $_SESSION["user"];
 <body class="bg-dark align-self-center m-2 p-2">
 <div class="container">
     <div class="form-row m-1 p-1">
-        <div class="form-control bg-dark">
+        <div class="form-control bg-dark btn-outline-danger">
             <div class="input-group">
                 <img class="m-1 p-1"
                      src="https://resources.jetbrains.com/storage/products/phpstorm/img/meta/phpstorm_logo_300x300.png"
@@ -46,18 +46,18 @@ $user = $_SESSION["user"];
         }
         ?>
         <div class="container bg-secondary">
-            <div class="row bg-warning">
+            <div class="row">
                 <form action="controller/YouTube/submitVideo.php" method="post"> <!-- submitVideo.php soon -->
                     <div class="input-group m-1 p-1">
                         <input type="text" class="form-control bg-dark text-white" name="videoUrl"
                                id="validationVideoUrl" placeholder="Video URL" required/>
                         <input type="text" class="form-control bg-dark text-white" name="message"
                                placeholder="Message"/>
-                        <input type="submit" class="form-control bg-dark text-white" value="submit"/>
+                        <input type="submit" class="form-control bg-info btn-outline-info text-white" value="submit"/>
                     </div>
                 </form>
             </div>
-            <div id="videoInfoRow" class="row bg-danger">
+            <div id="videoInfoRow" class="row">
                 <form action="controller/YouTube/submitVideo.php" method="post"> <!-- submitVideo.php soon -->
                     <div class="input-group m-1 p-1">
                         <table class="table table-dark text-center">
@@ -89,11 +89,41 @@ $user = $_SESSION["user"];
             </div>
             <div id="videoRow" class="row m-2 p-2 embed-responsive embed-responsive-16by9">
             </div>
-            <div class="input-group m-1 p-1">
+            <div class="input-group m-1 p-1" id="videoControls">
                 <div class="input-group m-2 p-2">
-                    <button onclick="previousVideo()" class="form-control btn-dark">Previous</button>
-                    <button onclick="nextVideo()" class="form-control btn-dark">Next</button>
+                    <button onclick="previousVideo()" class="form-control btn-dark btn-outline-danger">Previous</button>
+                    <button onclick="nextVideo()" class="form-control btn-dark btn-outline-info">Next</button>
                 </div>
+            </div>
+            <!--
+            <div class="bg-dark m-1 p-1">
+                <div class="row m-2 p-2" id="comment-section">
+                    <div class="input-group p-1 bg-dark text-white" id="comment">
+                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
+                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
+                    </div>
+                    <div class="input-group p-1 bg-dark text-white" id="comment">
+                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
+                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
+                    </div>
+                    <div class="input-group p-1 bg-dark text-white" id="comment">
+                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
+                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
+                    </div>
+                    <div class="input-group p-1 bg-dark text-white" id="comment">
+                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
+                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="input-group m-1 p-1" id="comment-form">
+                        <form action="controller/YouTube/submitComment.php" class="input-group m-2 p-2" id="comment">
+                            <input type="text" class="form-control bg-dark text-white btn-outline-danger" name="comment" placeholder="Enter your Comment here">
+                            <textarea class="form-control bg-dark text-white" rows="2" wrap="hard" maxlength="255"></textarea>
+                            <input type="submit" class="form-control btn-info" value="comment">
+                        </form>
+                    </div>
+                </div>-->
             </div>
         </div>
     </div>

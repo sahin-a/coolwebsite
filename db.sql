@@ -17,3 +17,10 @@ CREATE TABLE youtubeVideos (
     submit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE commentSections (
+    videoId VARCHAR(11) NOT NULL,
+    username VARCHAR(32) NOT NULL,
+    comment VARCHAR(255) NOT NULL,
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+

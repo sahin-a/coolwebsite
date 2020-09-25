@@ -10,7 +10,7 @@ if (!Auth::isLoggedIn()) {
 $pattern = "/^((http|https):\/\/(www.youtube.com\/watch\?v=|youtu.be\/)([a-zA-Z0-9_-]{11}))/";
 
 $videoUrl = $_POST["videoUrl"];
-$message = $_POST["message"];
+$message = isset($_POST["message"]) ? htmlspecialchars($_POST["message"]) : null;
 $user = $_SESSION["user"];
 $submitter = $user["username"];
 
