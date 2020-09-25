@@ -32,8 +32,8 @@ if (Auth::isLoggedIn()) {
             }
             ?>
             <div class="input-group mt-2">
-                <input class="form-control" type="text" name="username" placeholder="Username">
-                <input class="form-control" type="password" name="password" placeholder="Password">
+                <input class="form-control" type="text" name="username" placeholder="Username" required>
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
             </div>
             <input class="btn btn-success form-control mt-2" type="submit" value="login">
             <a href="registration.php"><input class="btn btn-warning form-control mt-2" type="button"
