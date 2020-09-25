@@ -38,8 +38,10 @@ function loadVideos() {
     var absolutePath = protocol + host + "/api/youtube/videocollection.php";
 
     $.get(absolutePath, function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var videoObj = data[i];
+        var videosArr = data["videos"];
+
+            for (var i = 0; i < videosArr.length; i++) {
+                var videoObj = videosArr[i];
                 videos.push(videoObj);
             }
 

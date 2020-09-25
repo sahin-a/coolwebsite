@@ -2,7 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
 
 $con = DatabaseCollector::getInstance()->getConnection();
-$query = "SELECT * FROM youtubeVideos";
+$query = "SELECT * FROM youtubeVideos ORDER BY SUBMIT_DATE DESC";
 $videos = array();
 
 if ($stmt = mysqli_prepare($con, $query)) {
@@ -27,8 +27,19 @@ if ($stmt = mysqli_prepare($con, $query)) {
             }
         }
 
-        $videos = array_reverse($videos);
-        echo json_encode($videos, JSON_PRETTY_PRINT);
+        $count = count($videos);
+
+        if ($count > 0) {
+            http_response_code(200);
+            echo json_encode(array("message" => "successfully retrieved the video list",
+                "count" => $count,
+                "videos" => $videos),
+                JSON_PRETTY_PRINT);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "no videos found"), JSON_PRETTY_PRINT);
+        }
+
         header('Content-Type: application/json');
     }
 }
