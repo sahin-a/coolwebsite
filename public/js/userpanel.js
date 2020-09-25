@@ -30,13 +30,13 @@ function loadVideos() {
     var host = window.location.host;
 
     // TODO: don't forget to comment this shit out before comitting
-    var rootName = $(location).attr('pathname');
+    /*var rootName = $(location).attr('pathname');
     rootName.indexOf(1);
-    rootName = rootName.split("/")[1];
+    rootName = rootName.split("/")[1];*/
     /* "/" + rootName*/
 
     var href = location.href;
-    var absolutePath = protocol + host + "/" + rootName + "/api/youtube/videocollection.php";
+    var absolutePath = protocol + host + "/api/youtube/videocollection.php";
 
     $.get(absolutePath, function (data) {
         var videosArr = data["videos"];
