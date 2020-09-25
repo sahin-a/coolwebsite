@@ -15,7 +15,7 @@ if (isset($username) && isset($password)) {
         header("Location: ../../userpanel.php");
         exit;
     }
-    $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Wrong credentials");
+    $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Invalid credentials :(");
 }
 
 header("Location: ../../index.php");

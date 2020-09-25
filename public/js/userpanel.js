@@ -29,6 +29,7 @@ function loadVideos() {
     var protocol = window.location.protocol + "//";
     var host = window.location.host;
 
+    // TODO: don't forget to comment this shit out before comitting
     /*var rootName = $(location).attr('pathname');
     rootName.indexOf(1);
     rootName = rootName.split("/")[1];*/
