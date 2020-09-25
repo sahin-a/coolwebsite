@@ -50,7 +50,7 @@ $user = $_SESSION["user"];
                 <form action="controller/YouTube/submitVideo.php" method="post"> <!-- submitVideo.php soon -->
                     <div class="input-group m-1 p-1">
                         <input type="text" class="form-control bg-dark text-white" name="videoUrl"
-                               id="validationVideoUrl" placeholder="Video URL"/>
+                               id="validationVideoUrl" placeholder="Video URL" required/>
                         <input type="text" class="form-control bg-dark text-white" name="message"
                                placeholder="Message"/>
                         <input type="submit" class="form-control bg-dark text-white" value="submit"/>
