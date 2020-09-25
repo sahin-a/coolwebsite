@@ -26,6 +26,8 @@ if ($stmt = mysqli_prepare($con, $query)) {
                 array_push($videos, $video);
             }
         }
+
+        $videos = array_reverse($videos);
         echo json_encode($videos, JSON_PRETTY_PRINT);
         header('Content-Type: application/json');
     }
