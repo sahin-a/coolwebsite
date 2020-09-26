@@ -28,7 +28,7 @@ $user = $_SESSION["user"];
                      src="https://resources.jetbrains.com/storage/products/phpstorm/img/meta/phpstorm_logo_300x300.png"
                      width="50" height="50">
                 <form action="">
-                    <input class="btn btn-info m-2 p-2" type="submit" value="Account Information"/>
+                    <input class="btn btn-info m-2 p-2" type="submit" value="Account"/>
                 </form>
                 <form action="controller/Auth/logout.php">
                     <input class="btn btn-danger m-2 p-2" type="submit" value="Logout">
