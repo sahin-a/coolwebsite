@@ -64,21 +64,23 @@ function nextVideo() {
 
 function submitComment() {
     var absolutePath = getApiDir() + "/youtube/submitcomment.php";
-    var comment = document.getElementById("commentBox").value;
+    var comment = document.getElementById("commentBox");
 
     $.ajax({
         type: "POST"
         , url: absolutePath
-        , data: {"id": videos[idx]["id"], "comment": comment}
+        , data: {"id": videos[idx]["id"], "comment": comment.value}
         , success: function () {
             getComments();
-            comment = null;
+            comment.value = null;
         }
     });
 }
 
 function getComments() {
     var absolutePath = getApiDir() + "/youtube/commentcollection.php";
+    var commentSectionTag = $("#comment-section");
+    commentSectionTag.html("");
 
     $.ajax({
         type: "POST"
@@ -88,16 +90,17 @@ function getComments() {
             var comments = data["comments"];
             var html = "";
 
-            comments.forEach(comment => {
-                html += "<div class=\"input-group p-1 bg-dark text-white\" id=\"comment\">\n" +
-                    "<label class=\"form-control bg-dark btn-outline-info text-white\" \n" +
-                    "   id=\"comment-username-label\">" + comment["creation_date"] + " | " + comment["username"] + "</label>\n" +
-                    "<label class=\"form-control bg-dark btn-outline-danger text-white\" \n" +
-                    "       id=\"comment-username-label\">" + comment["comment"] + "</label>\n" +
-                    "</div>";
-            });
+            if (comments.length > 0) {
+                comments.forEach(comment => {
+                    html += "<div class=\"input-group p-1 bg-dark text-white\" id=\"comment\">\n" +
+                        "<label class=\"form-control bg-dark btn-outline-info text-white\" \n" +
+                        "   id=\"comment-username-label\">" + comment["creation_date"] + " | " + comment["username"] + "</label>\n" +
+                        "<label class=\"form-control bg-dark btn-outline-danger text-white\" \n" +
+                        "       id=\"comment-username-label\">" + comment["comment"] + "</label>\n" +
+                        "</div>";
+                });
+            }
 
-            var commentSectionTag = $("#comment-section");
             commentSectionTag.html(html);
         }
     });

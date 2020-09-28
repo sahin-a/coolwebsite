@@ -98,12 +98,10 @@ $user = $_SESSION["user"];
             <div class="bg-dark m-1 p-1">
                 <div class="row m-2 p-2" id="comment-section">
                 </div>
-                <div class="row p-1">
-                    <div class="input-group m-1 p-1" id="comment-form">
-                        <textarea id="commentBox" class="form-control bg-dark text-white" width="50%"
+                <div class="row m-2 p-2">
+                        <textarea id="commentBox" class="form-control bg-dark text-white"
                                   placeholder="Enter your comment here" rows="2" wrap="hard" maxlength="255"></textarea>
-                        <button onclick="submitComment()" class="form-control btn-info" value="comment">
-                    </div>
+                    <button onclick="submitComment()" class="btn btn-info mt-2 p-2">submit</button>
                 </div>
             </div>
         </div>
