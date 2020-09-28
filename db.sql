@@ -5,22 +5,28 @@ CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(32) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    user VARCHAR(255) NOT NULL,
     register_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(id, username)
+    UNIQUE(username),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE youtubeVideos (
-    submitter VARCHAR(32) NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     videoId VARCHAR(11) NOT NULL,
+    uid INT NOT NULL,
     message VARCHAR(64),
-    submit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    submit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (uid) REFERENCES users(id)
 );
 
 CREATE TABLE commentSections (
-    videoId VARCHAR(11) NOT NULL,
+    id INT NOT NULL,
     username VARCHAR(32) NOT NULL,
     comment VARCHAR(255) NOT NULL,
-    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id) REFERENCES youtubeVideos(id)
 );
 
+CREATE USER 'cooluser'@'localhost' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON SMJ_DB.* TO 'cooluser'@'localhost';

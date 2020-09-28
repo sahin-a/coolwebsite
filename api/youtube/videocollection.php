@@ -7,7 +7,7 @@ if (!Auth::isLoggedIn()) {
     echo json_encode(array("message" => "unauthorized access"));
 } else {
     $con = DatabaseCollector::getInstance()->getConnection();
-    $query = "SELECT * FROM youtubeVideos ORDER BY SUBMIT_DATE DESC";
+    $query = "SELECT users.username, youtubeVideos.* FROM users INNER JOIN youtubeVideos ON users.id = youtubeVideos.uid ORDER BY submit_date DESC";
     $videos = array();
 
     if ($stmt = mysqli_prepare($con, $query)) {
@@ -15,13 +15,18 @@ if (!Auth::isLoggedIn()) {
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_assoc()) {
-                $submitter = $row["submitter"];
+                $submitter_id = $row["uid"];
+                $submitter = $row["username"];
+
+                $id = $row["id"];
                 $videoId = $row["videoId"];
                 $message = $row["message"];
                 $submit_date = $row["submit_date"];
 
-                if (isset($submitter) && isset($videoId) && isset($submit_date)) {
+                if (isset($submitter_id) && isset($submitter) && isset($videoId) && isset($submit_date)) {
                     $video = array(
+                        "id" => $id,
+                        "submitter_id" => $submitter_id,
                         "submitter" => $submitter,
                         "videoId" => $videoId,
                         "message" => $message,

@@ -95,35 +95,16 @@ $user = $_SESSION["user"];
                     <button onclick="nextVideo()" class="form-control btn-dark btn-outline-info">Next</button>
                 </div>
             </div>
-            <!--
             <div class="bg-dark m-1 p-1">
                 <div class="row m-2 p-2" id="comment-section">
-                    <div class="input-group p-1 bg-dark text-white" id="comment">
-                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
-                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
-                    </div>
-                    <div class="input-group p-1 bg-dark text-white" id="comment">
-                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
-                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
-                    </div>
-                    <div class="input-group p-1 bg-dark text-white" id="comment">
-                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
-                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
-                    </div>
-                    <div class="input-group p-1 bg-dark text-white" id="comment">
-                        <label class="form-control bg-dark btn-outline-info text-white" width="40" id="comment-username-label">2020-25-09 13:35:22 | Sahin: </label>
-                        <label class="form-control bg-dark btn-outline-danger text-white" width="40" id="comment-username-label">Was geht</label>
-                    </div>
                 </div>
                 <div class="row p-1">
                     <div class="input-group m-1 p-1" id="comment-form">
-                        <form action="controller/YouTube/submitComment.php" class="input-group m-2 p-2" id="comment">
-                            <input type="text" class="form-control bg-dark text-white btn-outline-danger" name="comment" placeholder="Enter your Comment here">
-                            <textarea class="form-control bg-dark text-white" rows="2" wrap="hard" maxlength="255"></textarea>
-                            <input type="submit" class="form-control btn-info" value="comment">
-                        </form>
+                        <textarea id="commentBox" class="form-control bg-dark text-white" width="50%"
+                                  placeholder="Enter your comment here" rows="2" wrap="hard" maxlength="255"></textarea>
+                        <button onclick="submitComment()" class="form-control btn-info" value="comment">
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>

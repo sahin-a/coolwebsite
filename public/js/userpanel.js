@@ -1,9 +1,9 @@
 var idx = 0;
 var videos = new Array();
+//var comments = new Array();
 
 $(document).ready(function () {
     loadVideos();
-    //updateVideo();
 });
 
 function updateVideo() {
@@ -23,31 +23,33 @@ function updateVideo() {
     videoRow.html("<iframe id=\"videoFrame\" class=\"embed-responsive-item\" src=\"https://www.youtube.com/embed/" + videoId + "\"\n" +
         "                        allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"\n" +
         "                        allowfullscreen></iframe>");
+
+    getComments();
 }
 
-function loadVideos() {
+function getApiDir() {
     var protocol = window.location.protocol + "//";
     var host = window.location.host;
 
     // TODO: don't forget to comment this shit out before comitting
-    /*var rootName = $(location).attr('pathname');
+    var rootName = $(location).attr('pathname');
     rootName.indexOf(1);
-    rootName = rootName.split("/")[1];*/
+    rootName = rootName.split("/")[1];
     /* "/" + rootName*/
 
     var href = location.href;
-    var absolutePath = protocol + host + "/api/youtube/videocollection.php";
+    var absolutePath = protocol + host + "/" + rootName + "/api";
+
+    return absolutePath;
+}
+
+function loadVideos() {
+    var absolutePath = getApiDir() + "/youtube/videocollection.php";
 
     $.get(absolutePath, function (data) {
-        var videosArr = data["videos"];
-
-            for (var i = 0; i < videosArr.length; i++) {
-                var videoObj = videosArr[i];
-                videos.push(videoObj);
-            }
-
-            updateVideo();
-        });
+        videos = data["videos"];
+        updateVideo();
+    });
 }
 
 function previousVideo() {
@@ -58,4 +60,45 @@ function previousVideo() {
 function nextVideo() {
     idx = idx < videos.length - 1 ? ++idx : idx;
     updateVideo();
+}
+
+function submitComment() {
+    var absolutePath = getApiDir() + "/youtube/submitcomment.php";
+    var comment = document.getElementById("commentBox").value;
+
+    $.ajax({
+        type: "POST"
+        , url: absolutePath
+        , data: {"id": videos[idx]["id"], "comment": comment}
+        , success: function () {
+            getComments();
+            comment = null;
+        }
+    });
+}
+
+function getComments() {
+    var absolutePath = getApiDir() + "/youtube/commentcollection.php";
+
+    $.ajax({
+        type: "POST"
+        , url: absolutePath
+        , data: {"id": videos[idx]["id"]}
+        , success: function (data) {
+            var comments = data["comments"];
+            var html = "";
+
+            comments.forEach(comment => {
+                html += "<div class=\"input-group p-1 bg-dark text-white\" id=\"comment\">\n" +
+                    "<label class=\"form-control bg-dark btn-outline-info text-white\" \n" +
+                    "   id=\"comment-username-label\">" + comment["creation_date"] + " | " + comment["username"] + "</label>\n" +
+                    "<label class=\"form-control bg-dark btn-outline-danger text-white\" \n" +
+                    "       id=\"comment-username-label\">" + comment["comment"] + "</label>\n" +
+                    "</div>";
+            });
+
+            var commentSectionTag = $("#comment-section");
+            commentSectionTag.html(html);
+        }
+    });
 }

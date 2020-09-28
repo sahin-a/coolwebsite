@@ -10,7 +10,6 @@ if (isset($username) && isset($password)) {
 
     if (Auth::validate_credentials($username, $password)) {
         $_SESSION["loggedIn"] = true;
-        //$_SESSION["username"] = $username;
 
         header("Location: ../../userpanel.php");
         exit;

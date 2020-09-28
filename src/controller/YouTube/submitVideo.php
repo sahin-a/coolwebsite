@@ -11,17 +11,16 @@ $pattern = "/^((http|https):\/\/(www.youtube.com\/watch\?v=|youtu.be\/)([a-zA-Z0
 
 $videoUrl = $_POST["videoUrl"];
 $message = isset($_POST["message"]) ? htmlspecialchars($_POST["message"]) : null;
-$user = $_SESSION["user"];
-$submitter = $user["username"];
+$uid = $_SESSION["user"]["uid"];
 
 if (isset($videoUrl)) {
     if (preg_match($pattern, $videoUrl, $matches)) {
         $con = DatabaseCollector::getInstance()->getConnection();
-        $query = "INSERT INTO youtubeVideos (submitter, videoId, message) VALUES(?, ?, ?)";
+        $query = "INSERT INTO youtubeVideos (uid, videoId, message) VALUES(?, ?, ?)";
         $videoId = $matches[4];
 
         if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "sss", $submitter, $videoId, $message);
+            mysqli_stmt_bind_param($stmt, "sss", $uid, $videoId, $message);
 
             if (mysqli_stmt_execute($stmt)) {
                 $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::SUCCESS, "Video has been added successfully");
