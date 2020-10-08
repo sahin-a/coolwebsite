@@ -27,7 +27,7 @@ $user = $_SESSION["user"];
                 <img class="m-1 p-1"
                      src="https://resources.jetbrains.com/storage/products/phpstorm/img/meta/phpstorm_logo_300x300.png"
                      width="50" height="50">
-                <form action="">
+                <form action="accountoverview.php">
                     <input class="btn btn-info m-2 p-2" type="submit" value="Account"/>
                 </form>
                 <form action="controller/Auth/logout.php">
@@ -47,7 +47,7 @@ $user = $_SESSION["user"];
         ?>
         <div class="container bg-secondary">
             <div class="row">
-                <form action="controller/YouTube/submitVideo.php" method="post"> <!-- submitVideo.php soon -->
+                <form action="controller/YouTube/submitVideo.php" method="post">
                     <div class="input-group m-1 p-1">
                         <input type="text" class="form-control bg-dark text-white" name="videoUrl"
                                id="validationVideoUrl" placeholder="Video URL" required/>
@@ -58,7 +58,7 @@ $user = $_SESSION["user"];
                 </form>
             </div>
             <div id="videoInfoRow" class="row">
-                <form action="controller/YouTube/submitVideo.php" method="post"> <!-- submitVideo.php soon -->
+                <form>
                     <div class="input-group m-1 p-1">
                         <table class="table table-dark text-center">
                             <tr class="table-dark">
@@ -97,6 +97,7 @@ $user = $_SESSION["user"];
             </div>
             <div class="bg-dark m-1 p-1">
                 <div class="row m-2 p-2" id="comment-section">
+                    <!-- reserved for media post comments -->
                 </div>
                 <div class="row m-2 p-2">
                         <textarea id="commentBox" class="form-control bg-dark text-white"
