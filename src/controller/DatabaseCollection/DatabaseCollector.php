@@ -30,4 +30,35 @@ class DatabaseCollector
     {
         return self::$con;
     }
+
+    /**
+     * @param string $query
+     * @param string $types
+     * @param bool $res whether or not you want it to return the result from the query or a boolean
+     * @param mixed ...$params
+     * @return bool
+     */
+    public static function execute_sql_query(string $query, string $types, bool $res, ...$params)
+    {
+        $con = DatabaseCollector::getInstance()->getConnection();
+        $rows = array();
+
+        if ($stmt = mysqli_prepare($con, $query)) {
+            mysqli_stmt_bind_param($stmt, $types, $params);
+
+            if ($stmt->execute()) {
+                do {
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+
+                    if (!$res && $result->num_rows > 0)
+                        return true;
+
+                    array_push($rows, $row);
+                } while ($stmt->next_result());
+
+                return $rows;
+            }
+        }
+    }
 }

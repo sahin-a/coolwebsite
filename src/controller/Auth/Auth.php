@@ -19,6 +19,8 @@ class Auth
         return false;
     }
 
+    // TODO: alles auf die neue Methode umschreiben in DatabaseCollector.php um redundant code zu minimieren
+
     public static function update_password(string $username, string $curPassword, string $newPassword)
     {
         if (isset($username) && isset($curPassword) && isset($newPassword)) {
@@ -43,7 +45,7 @@ class Auth
                             mysqli_stmt_bind_param($stmt, "sss", $newPassword, $username, $curPassword);
 
                             if ($stmt->execute())
-                             return true;
+                                return true;
                         }
                     }
                 }
@@ -82,7 +84,63 @@ class Auth
         return false;
     }
 
-    public static function register_account(string $username, string $password)
+    public static function validate_invite(string $inviteCode)
+    {
+        $con = DatabaseCollector::getInstance()->getConnection();
+        $query = "SELECT invite_code FROM invites WHERE invite_code=?";
+
+        if ($stmt = mysqli_prepare($con, $query)) {
+            mysqli_stmt_bind_param($stmt, "s", $inviteCode);
+
+            if (mysqli_stmt_execute($stmt)) {
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static function generate_invite(int $uid)
+    {
+        $con = DatabaseCollector::getInstance()->getConnection();
+        $query = "INSERT INTO invites (uid, invite_code) VALUES(?, ?)";
+
+        if ($stmt = mysqli_prepare($con, $query)) {
+            $inviteCode = "";
+            try {
+                $inviteCode = hash("md5", random_bytes(20));
+            } catch (Exception $e) {
+                return false;
+            }
+
+            mysqli_stmt_bind_param($stmt, "is", $uid, $inviteCode);
+
+            if (mysqli_stmt_execute($stmt))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static function delete_invite(string $inviteCode)
+    {
+        $con = DatabaseCollector::getInstance()->getConnection();
+        $query = "DELETE FROM invites WHERE BINARY invite_code=?";
+
+        if ($stmt = mysqli_prepare($con, $query)) {
+            mysqli_stmt_bind_param($stmt, "s", $inviteCode);
+
+            if (mysqli_stmt_execute($stmt))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static function register_account(string $username, string $password, string $inviteCode)
     {
         $con = DatabaseCollector::getInstance()->getConnection();
         $query = "INSERT INTO users (username, password) VALUES(?, ?)";
@@ -92,7 +150,8 @@ class Auth
             mysqli_stmt_bind_param($stmt, "ss", $username, $password);
 
             if (mysqli_stmt_execute($stmt))
-                return true;
+                if (self::delete_invite($inviteCode))
+                    return true;
         }
 
         return false;

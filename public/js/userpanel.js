@@ -73,6 +73,7 @@ function submitComment() {
         , success: function () {
             getComments();
             comment.value = null;
+            alert("comment submitted successfully");
         }
     });
 }

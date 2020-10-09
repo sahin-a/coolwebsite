@@ -16,10 +16,10 @@
 </head>
 <body class="bg-dark align-self-center m-2 p-2">
 <div class="container">
-    <form action="index.php">
+    <form action="accountoverview.php">
         <div class="form-row m-1 p-1">
             <div class="form-control bg-dark">
-                <input class="btn btn-warning" type="submit" value="back to login">
+                <input class="btn btn-warning" type="submit" value="back to account overview">
             </div>
         </div>
     </form>
@@ -34,7 +34,7 @@
             <div class="input-group mt-2">
                 <input class="form-control" type="password" name="curPassword" placeholder="Current Password" required>
                 <input class="form-control" type="password" name="newPassword" placeholder="New Password" required>
-                <input class="form-control" type="password" name="passwordConfirm" placeholder="Confirm Password"
+                <input class="form-control" type="password" name="passwordConfirm" placeholder="Confirm New Password"
                        required>
             </div>
             <div class="input-group" role="group">

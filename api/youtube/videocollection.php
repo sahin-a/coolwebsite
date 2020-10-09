@@ -1,13 +1,15 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonMessage.php");
 
 if (!Auth::isLoggedIn()) {
     http_response_code(401);
-    echo json_encode(array("message" => "unauthorized access"));
+    echo json_encode(array("message" => JsonMessage::UNAUTHORIZED));
 } else {
     $con = DatabaseCollector::getInstance()->getConnection();
-    $query = "SELECT users.username, youtubeVideos.* FROM users INNER JOIN youtubeVideos ON users.id = youtubeVideos.uid ORDER BY submit_date DESC";
+    $query = "SELECT users.username, youtubeVideos.* FROM users INNER JOIN youtubeVideos 
+            ON users.id = youtubeVideos.uid ORDER BY submit_date DESC";
     $videos = array();
 
     if ($stmt = mysqli_prepare($con, $query)) {

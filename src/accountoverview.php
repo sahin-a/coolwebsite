@@ -23,19 +23,18 @@
             </div>
         </div>
     </form>
-    <form action="controller/Auth/changepassword.php" method="post">
-        <div class="form-row m-1 p-1">
-            <?php
-            if (isset($_SESSION) && isset($_SESSION["msg"])) {
-                echo $_SESSION["msg"];
-                unset($_SESSION["msg"]);
-            }
-            ?>
+    <div class="form-row m-1 p-1">
+        <form action="inviteoverview.php" method="post">
             <div class="input-group mt-2">
-                <button class="form-control btn-primary text-white" name="curPassword">Change Password</button>
+                <button class="form-control btn-primary text-white" name="curPassword">Invites</button>
             </div>
-        </div>
-    </form>
+        </form>
+        <form action="controller/Auth/changepassword.php" method="post">
+            <div class="input-group mt-2">
+                <button class="form-control btn-danger text-white" name="curPassword">Change Password</button>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

@@ -36,6 +36,8 @@
                 <input class="form-control" type="password" name="password" placeholder="Password" required>
                 <input class="form-control" type="password" name="passwordConfirm" placeholder="Confirm Password"
                        required>
+                <input class="form-control" type="password" name="inviteCode" placeholder="Invite Code"
+                       required>
             </div>
             <div class="input-group" role="group">
                 <input class="btn btn-success form-control mt-2" type="submit" value="register account">
