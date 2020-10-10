@@ -24,31 +24,20 @@ class Auth
     public static function update_password(string $username, string $curPassword, string $newPassword)
     {
         if (isset($username) && isset($curPassword) && isset($newPassword)) {
-            $con = DatabaseCollector::getInstance()->getConnection();
             $query = "SELECT password FROM users WHERE username=?";
+            $row = (DatabaseCollector::execute_sql_query($query, "s", true, $username))[0];
+            $oldPassword = $row["password"];
 
-            if ($stmt = mysqli_prepare($con, $query)) {
-                mysqli_stmt_bind_param($stmt, "s", $username);
+            if (isset($oldPassword) && password_verify($curPassword, $oldPassword)) {
+                $query = "UPDATE users SET password=? WHERE username=? AND BINARY password=?";
+                $curPassword = $oldPassword;
+                $newPassword = password_hash($newPassword, PASSWORD_ARGON2ID);
 
-                if ($stmt->execute()) {
-                    $result = $stmt->get_result();
-                    $row = $result->fetch_assoc();
-                    $oldPassword = $row["password"];
+                $result = DatabaseCollector::execute_sql_query($query, "sss", false, $newPassword, $username,
+                    $curPassword);
 
-                    if (isset($oldPassword) && password_verify($curPassword, $oldPassword)) {
-                        $query = "UPDATE users SET password=? WHERE username=? AND BINARY password=?";
-
-                        $curPassword = $oldPassword;
-                        $newPassword = password_hash($newPassword, PASSWORD_ARGON2ID);
-
-                        if ($stmt = mysqli_prepare($con, $query)) {
-                            mysqli_stmt_bind_param($stmt, "sss", $newPassword, $username, $curPassword);
-
-                            if ($stmt->execute())
-                                return true;
-                        }
-                    }
-                }
+                if ($result)
+                    return true;
             }
         }
 
@@ -58,26 +47,17 @@ class Auth
     public static function validate_credentials(string $username, string $password)
     {
         if (isset($username) && isset($password)) {
-            $con = DatabaseCollector::getInstance()->getConnection();
             $query = "SELECT id, username, password FROM users WHERE username=?";
 
-            if ($stmt = mysqli_prepare($con, $query)) {
-                mysqli_stmt_bind_param($stmt, "s", $username);
+            $row = (DatabaseCollector::execute_sql_query($query, "s", true, $username))[0];
+            $uid = $row["id"];
+            $username = $row["username"];
+            $storedHash = $row["password"];
 
-                if ($stmt->execute()) {
-                    $result = $stmt->get_result();
-                    $row = $result->fetch_assoc();
+            if (isset($storedHash) && password_verify($password, $storedHash)) {
+                $_SESSION["user"] = array("uid" => $uid, "username" => $username);
 
-                    $uid = $row["id"];
-                    $username = $row["username"];
-                    $storedHash = $row["password"];
-
-                    if (isset($storedHash) && password_verify($password, $storedHash)) {
-                        $_SESSION["user"] = array("uid" => $uid, "username" => $username);
-
-                        return true;
-                    }
-                }
+                return true;
             }
         }
 
@@ -86,73 +66,54 @@ class Auth
 
     public static function validate_invite(string $inviteCode)
     {
-        $con = DatabaseCollector::getInstance()->getConnection();
         $query = "SELECT invite_code FROM invites WHERE invite_code=?";
+        $result = DatabaseCollector::execute_sql_query($query, "s", false, $inviteCode);
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "s", $inviteCode);
-
-            if (mysqli_stmt_execute($stmt)) {
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    return true;
-                }
-            }
-        }
+        if ($result)
+            return true;
 
         return false;
     }
 
     public static function generate_invite(int $uid)
     {
-        $con = DatabaseCollector::getInstance()->getConnection();
         $query = "INSERT INTO invites (uid, invite_code) VALUES(?, ?)";
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            $inviteCode = "";
-            try {
-                $inviteCode = hash("md5", random_bytes(20));
-            } catch (Exception $e) {
-                return false;
-            }
-
-            mysqli_stmt_bind_param($stmt, "is", $uid, $inviteCode);
-
-            if (mysqli_stmt_execute($stmt))
-                return true;
+        $inviteCode = "";
+        try {
+            $inviteCode = hash("md5", random_bytes(20));
+        } catch (Exception $e) {
+            return false;
         }
+
+        $result = DatabaseCollector::execute_sql_query($query, "is", false, $uid, $inviteCode);
+
+        if ($result)
+            return true;
 
         return false;
     }
 
     public static function delete_invite(string $inviteCode)
     {
-        $con = DatabaseCollector::getInstance()->getConnection();
-        $query = "DELETE FROM invites WHERE BINARY invite_code=?";
+        $query = "UPDATE invites SET is_used=1 WHERE invite_code=?";
+        $result = DatabaseCollector::execute_sql_query($query, "s", false, $inviteCode);
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "s", $inviteCode);
-
-            if (mysqli_stmt_execute($stmt))
-                return true;
-        }
+        if ($result)
+            return true;
 
         return false;
     }
 
     public static function register_account(string $username, string $password, string $inviteCode)
     {
-        $con = DatabaseCollector::getInstance()->getConnection();
         $query = "INSERT INTO users (username, password) VALUES(?, ?)";
         $password = password_hash($password, PASSWORD_ARGON2ID);
+        $result = DatabaseCollector::execute_sql_query($query, "ss", false, $username, $password);
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
-
-            if (mysqli_stmt_execute($stmt))
-                if (self::delete_invite($inviteCode))
-                    return true;
-        }
+        if ($result)
+            if (self::delete_invite($inviteCode))
+                return true;
 
         return false;
     }

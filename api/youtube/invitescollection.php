@@ -13,52 +13,42 @@ if (!Auth::isLoggedIn()) {
         $con = DatabaseCollector::getInstance()->getConnection();
         $query = "SELECT users.id, users.username, invites.invite_code, invites.creation_date FROM users 
                  INNER JOIN invites ON users.id = invites.uid WHERE users.id=?";
+        $rows = DatabaseCollector::execute_sql_query($query, "i", true, $id);
         $inviteCodes = array();
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "i", $id);
+        $count = count($rows);
 
-            if ($stmt->execute()) {
-                $result = $stmt->get_result();
+        if ($count > 0) {
+            foreach ($rows as $row) {
+                $id = $row["id"];
+                $username = $row["username"];
+                $inviteCode = $row["invite_code"];
+                $creation_date = $row["creation_date"];
 
-                while ($row = $result->fetch_assoc()) {
-                    $id = $row["id"];
-                    $username = $row["username"];
-                    $inviteCode = $row["invite_code"];
-                    $creation_date = $row["creation_date"];
+                if (isset($id) && isset($username) && isset($inviteCode) && isset($creation_date)) {
+                    $inviteCode = array(
+                        "id" => $id,
+                        "username" => $username,
+                        "invite_code" => $inviteCode,
+                        "creation_date" => $creation_date
+                    );
 
-                    if (isset($id) && isset($username) && isset($inviteCode) && isset($creation_date)) {
-                        $inviteCode = array(
-                            "id" => $id,
-                            "username" => $username,
-                            "invite_code" => $inviteCode,
-                            "creation_date" => $creation_date
-                        );
-
-                        array_push($inviteCodes, $inviteCode);
-                    }
+                    array_push($inviteCodes, $inviteCode);
                 }
 
-                $count = count($inviteCodes);
-
-                if ($count > 0) {
-                    http_response_code(200);
-                    echo json_encode(array("message" => "successfully retrieved invites",
-                        "count" => $count,
-                        "invites" => $inviteCodes),
-                        JSON_PRETTY_PRINT);
-                } else {
-                    http_response_code(404);
-                    echo json_encode(array("message" => "no invites found"), JSON_PRETTY_PRINT);
-                }
-            } else {
-                http_response_code(400);
-                echo json_encode(array("message" => "sql query failed"));
+                http_response_code(200);
+                echo json_encode(array("message" => "successfully retrieved invites",
+                    "count" => $count,
+                    "invites" => $inviteCodes),
+                    JSON_PRETTY_PRINT);
             }
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "no invites found"), JSON_PRETTY_PRINT);
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "id equals null"));
+        echo json_encode(array("message" => "uid equals null"));
     }
 }
 

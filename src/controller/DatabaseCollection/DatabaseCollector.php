@@ -38,21 +38,22 @@ class DatabaseCollector
      * @param mixed ...$params
      * @return bool
      */
-    public static function execute_sql_query(string $query, string $types, bool $res, ...$params)
+    public static function execute_sql_query(string $query, $types, bool $res, ...$params)
     {
-        $con = DatabaseCollector::getInstance()->getConnection();
+        $con = self::getInstance()->getConnection();
         $rows = array();
 
         if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, $types, $params);
+            if (isset($types) && isset($params))
+                mysqli_stmt_bind_param($stmt, $types, ...$params);
 
             if ($stmt->execute()) {
+                if (!$res)
+                    return true;
+
                 do {
                     $result = $stmt->get_result();
                     $row = $result->fetch_assoc();
-
-                    if (!$res && $result->num_rows > 0)
-                        return true;
 
                     array_push($rows, $row);
                 } while ($stmt->next_result());
@@ -60,5 +61,10 @@ class DatabaseCollector
                 return $rows;
             }
         }
+
+        if ($res)
+            return null;
+        else
+            return false;
     }
 }

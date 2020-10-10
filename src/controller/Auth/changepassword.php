@@ -15,9 +15,9 @@ $username = $_SESSION["user"]["username"];
 if (isset($username) && isset($curPassword) && isset($newPassword) && isset($passwordConfirm)) {
     if (strcmp($newPassword, $passwordConfirm) === 0) {
         if (Auth::update_password($username, $curPassword, $newPassword)) {
-            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Successfully to updated your password :)");
+            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::SUCCESS, "Successfully updated your password :)");
         } else {
-            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Failed to update your password :/");
+            $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Failed to update your password :/");
         }
     } else {
         $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Passwords don't match :/");

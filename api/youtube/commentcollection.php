@@ -8,47 +8,38 @@ if (!Auth::isLoggedIn()) {
     echo json_encode(array("message" => JsonMessage::UNAUTHORIZED));
 } else {
     if (isset($_POST["id"])) {
-        $con = DatabaseCollector::getInstance()->getConnection();
         $query = "SELECT * FROM commentSections WHERE BINARY id=?";
+        $rows = DatabaseCollector::execute_sql_query($query, "i", true, $_POST["id"]);
         $comments = array();
+        $count = count($rows);
 
-        if ($stmt = mysqli_prepare($con, $query)) {
-            mysqli_stmt_bind_param($stmt, "i", $_POST["id"]);
+        if ($count > 0) {
+            foreach ($rows as $row) {
+                $id = $row["id"];
+                $username = $row["username"];
+                $comment = $row["comment"];
+                $creation_date = $row["creation_date"];
 
-            if ($stmt->execute()) {
-                $result = $stmt->get_result();
+                if (isset($id) && isset($username) && isset($comment) && isset($creation_date)) {
+                    $comment = array(
+                        "id" => $id,
+                        "username" => $username,
+                        "comment" => $comment,
+                        "creation_date" => $creation_date
+                    );
 
-                while ($row = $result->fetch_assoc()) {
-                    $id = $row["id"];
-                    $username = $row["username"];
-                    $comment = $row["comment"];
-                    $creation_date = $row["creation_date"];
-
-                    if (isset($id) && isset($username) && isset($comment) && isset($creation_date)) {
-                        $comment = array(
-                            "id" => $id,
-                            "username" => $username,
-                            "comment" => $comment,
-                            "creation_date" => $creation_date
-                        );
-
-                        array_push($comments, $comment);
-                    }
-                }
-
-                $count = count($comments);
-
-                if ($count > 0) {
-                    http_response_code(200);
-                    echo json_encode(array("message" => "successfully retrieved comments",
-                        "count" => $count,
-                        "comments" => $comments),
-                        JSON_PRETTY_PRINT);
-                } else {
-                    http_response_code(404);
-                    echo json_encode(array("message" => "no comments found"), JSON_PRETTY_PRINT);
+                    array_push($comments, $comment);
                 }
             }
+
+            http_response_code(200);
+            echo json_encode(array("message" => "successfully retrieved comments",
+                "count" => $count,
+                "comments" => $comments),
+                JSON_PRETTY_PRINT);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "no comments found"), JSON_PRETTY_PRINT);
         }
     } else {
         http_response_code(404);

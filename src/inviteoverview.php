@@ -25,7 +25,7 @@
     </form>
     <div class="container">
         <div class="input-group m-1 p-1 border">
-            <table class="table table-dark text-center">
+            <table id="inviteTable" class="table table-dark text-center">
                 <tr>
                     <td>
                         <label>User ID</label>
@@ -35,28 +35,6 @@
                     </td>
                     <td>
                         <label>Creation Date</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="videoSubmitter">UID</label>
-                    </td>
-                    <td>
-                        <label id="videoMessage">OWNER_USERNAME</label>
-                    </td>
-                    <td>
-                        <label id="videoSubmitDate">CREATION_DATE</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="videoSubmitter">NULL</label>
-                    </td>
-                    <td>
-                        <label id="videoMessage">SUPERUSER</label>
-                    </td>
-                    <td>
-                        <label id="videoSubmitDate">DEINE MUTTER</label>
                     </td>
                 </tr>
             </table>

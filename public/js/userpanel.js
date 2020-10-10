@@ -27,22 +27,6 @@ function updateVideo() {
     getComments();
 }
 
-function getApiDir() {
-    var protocol = window.location.protocol + "//";
-    var host = window.location.host;
-
-    // TODO: don't forget to comment this shit out before comitting
-    /*var rootName = $(location).attr('pathname');
-    rootName.indexOf(1);
-    rootName = rootName.split("/")[1];*/
-    /* "/" + rootName*/
-
-    var href = location.href;
-    var absolutePath = protocol + host + "/api";
-
-    return absolutePath;
-}
-
 function loadVideos() {
     var absolutePath = getApiDir() + "/youtube/videocollection.php";
 

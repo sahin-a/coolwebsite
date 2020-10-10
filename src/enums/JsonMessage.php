@@ -1,7 +1,7 @@
 <?php
 
 
-class JsonMessages
+class JsonMessage
 {
     private function __construct() {}
 
