@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../public/css/bootstrap.css">
-    <title>Change Password</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../public/js/utils/requestutils.js"></script>
+    <title>Invite Manager</title>
     <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
 
@@ -40,12 +42,13 @@
             </table>
         </div>
         <div class="input-group m-1 p-1 border">
-            <input onclick="alert('generator clicked')" type="submit" class="input-group btn-primary m-1 p-2" value="Generate Invite">
+            <input onclick="generateInvite()" type="submit" class="input-group btn-primary m-1 p-2" value="Generate Invite">
         </div>
         <div class="row">
 
         </div>
     </div>
 </div>
+<script src="../public/js/inviteoverview.js"></script>
 </body>
 </html>

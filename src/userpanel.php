@@ -17,7 +17,6 @@ $user = $_SESSION["user"];
     <link rel="stylesheet" href="../public/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../public/js/utils/requestutils.js"></script>
-    <script src="../public/js/userpanel.js"></script>
     <title>User Panel</title>
 </head>
 <body class="bg-dark align-self-center m-2 p-2">
@@ -109,5 +108,6 @@ $user = $_SESSION["user"];
         </div>
     </div>
 </div>
+<script src="../public/js/userpanel.js"></script>
 </body>
 </html>

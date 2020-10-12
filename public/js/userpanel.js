@@ -1,10 +1,5 @@
 var idx = 0;
 var videos = new Array();
-//var comments = new Array();
-
-$(document).ready(function () {
-    loadVideos();
-});
 
 function updateVideo() {
     var video = videos[idx];
@@ -90,3 +85,5 @@ function getComments() {
         }
     });
 }
+
+loadVideos();

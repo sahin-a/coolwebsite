@@ -48,15 +48,13 @@ class DatabaseCollector
                 mysqli_stmt_bind_param($stmt, $types, ...$params);
 
             if ($stmt->execute()) {
-                if (!$res)
+                if ($res === false)
                     return true;
 
-                do {
-                    $result = $stmt->get_result();
-                    $row = $result->fetch_assoc();
-
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
                     array_push($rows, $row);
-                } while ($stmt->next_result());
+                }
 
                 return $rows;
             }
