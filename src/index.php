@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 
 if (Auth::isLoggedIn()) {
     header("Location: userpanel.php");
@@ -23,7 +23,7 @@ if (Auth::isLoggedIn()) {
              src="https://resources.jetbrains.com/storage/products/phpstorm/img/meta/phpstorm_logo_300x300.png"
              width="50" height="50">
     </div>
-    <form action="controller/Auth/login.php" method="post">
+    <form action="controller/auth/login.php" method="post">
         <div class="form-row m-1 p-1">
             <?php
             if (isset($_SESSION) && isset($_SESSION["msg"])) {

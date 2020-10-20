@@ -42,5 +42,13 @@ CREATE TABLE invites (
     FOREIGN KEY (uid) REFERENCES users(id)
 );
 
+CREATE TABLE tokens (
+    token VARCHAR(255),
+    uid INT,
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(token),
+    FOREIGN KEY (uid) REFERENCES users(id)
+);
+
 CREATE USER 'cooluser'@'localhost' IDENTIFIED BY '';
 GRANT ALL PRIVILEGES ON SMJ_DB.* TO 'cooluser'@'localhost';

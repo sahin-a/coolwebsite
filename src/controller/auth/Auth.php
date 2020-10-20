@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/model/UserModel/User.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/databasecollection/DatabaseCollector.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/models/UserModel/User.php");
 
 class Auth
 {
@@ -44,20 +44,30 @@ class Auth
         return false;
     }
 
-    public static function validate_credentials(string $username, string $password)
+    /**
+     * @param string $username
+     * @param string $password
+     * @param bool $inSession true = stores the user obj in the session | false = returns the user obj
+     * @return array|bool
+     */
+    public static function validate_credentials(string $username, string $password, bool $inSession = true)
     {
         if (isset($username) && isset($password)) {
             $query = "SELECT id, username, password FROM users WHERE username=?";
 
-            $row = (DatabaseCollector::execute_sql_query($query, "s", true, $username))[0];
+            $row = DatabaseCollector::execute_sql_query($query, "s", true, $username)[0];
             $uid = $row["id"];
             $username = $row["username"];
             $storedHash = $row["password"];
 
             if (isset($storedHash) && password_verify($password, $storedHash)) {
-                $_SESSION["user"] = array("uid" => $uid, "username" => $username);
+                $user = array("uid" => $uid, "username" => $username);
+                if ($inSession) {
+                    $_SESSION["user"] = $user;
+                    return true;
+                }
 
-                return true;
+                return $user;
             }
         }
 
@@ -77,7 +87,13 @@ class Auth
 
     public static function generate_invite(int $uid)
     {
+        $queryLimit = "SELECT COUNT(*) AS valid_invites FROM invites WHERE uid=? AND is_used=0 AND MONTH(creation_date)=MONTH(CURDATE())";
         $query = "INSERT INTO invites (uid, invite_code) VALUES(?, ?)";
+
+        $result = DatabaseCollector::execute_sql_query($query, "i", true, $uid);
+
+        if ($result[0] > 2)
+            return false;
 
         $inviteCode = "";
         try {

@@ -1,6 +1,15 @@
 
 function generateInvite() {
-// TODO: create generateInvite() Function
+    var absolutePath = getApiDir()  + "/user/generateinvite.php";
+
+    $.ajax({
+        type: "POST"
+        , url: absolutePath
+        , data: null
+        , success: function (data) {
+            getInvites();
+        }
+    });
 }
 
 function getInvites() {
@@ -14,6 +23,7 @@ function getInvites() {
         , success: function (data) {
             var invites = data["invites"];
             var html = inviteTableTag.html();
+            html = null;
 
             if (invites.length > 0) {
                 invites.forEach(invite => {

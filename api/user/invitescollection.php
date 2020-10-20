@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/databasecollection/DatabaseCollector.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonMessage.php");
 
 if (!Auth::isLoggedIn()) {

@@ -8,7 +8,7 @@
     <script src="../public/js/utils/requestutils.js"></script>
     <title>Invite Manager</title>
     <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 
     if (!Auth::isLoggedIn()) {
         header("Location: index.php");

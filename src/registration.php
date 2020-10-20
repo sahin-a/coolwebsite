@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../public/css/bootstrap.css">
     <title>Registration</title>
     <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 
     if (Auth::isLoggedIn()) {
         header("Location: userpanel.php");
@@ -23,7 +23,7 @@
             </div>
         </div>
     </form>
-    <form action="controller/Auth/register.php" method="post">
+    <form action="controller/auth/register.php" method="post">
         <div class="form-row m-1 p-1">
             <?php
             if (isset($_SESSION) && isset($_SESSION["msg"])) {

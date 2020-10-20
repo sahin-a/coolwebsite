@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/utils/AlertBuilder.php");
 
 $username = $_POST["username"];

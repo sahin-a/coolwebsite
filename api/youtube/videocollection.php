@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/DatabaseCollection/DatabaseCollector.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/databasecollection/DatabaseCollector.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonMessage.php");
 
 if (!Auth::isLoggedIn()) {
@@ -25,7 +25,9 @@ if (!Auth::isLoggedIn()) {
             $message = $row["message"];
             $submit_date = $row["submit_date"];
 
-            if (isset($submitter_id) && isset($submitter) && isset($videoId) && isset($submit_date)) {
+            if (isset($submitter_id) && isset($submitter) && isset($id) && isset($videoId) && isset($message)
+                && isset($submit_date)) {
+
                 $video = array(
                     "id" => $id,
                     "submitter_id" => $submitter_id,

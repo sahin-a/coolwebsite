@@ -52,7 +52,6 @@ function submitComment() {
         , success: function () {
             getComments();
             comment.value = null;
-            alert("comment submitted successfully");
         }
     });
 }
@@ -68,7 +67,7 @@ function getComments() {
         , data: {"id": videos[idx]["id"]}
         , success: function (data) {
             var comments = data["comments"];
-            var html = "";
+            var html = null;
 
             if (comments.length > 0) {
                 comments.forEach(comment => {

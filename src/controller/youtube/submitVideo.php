@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/utils/AlertBuilder.php");
 
 if (!Auth::isLoggedIn()) {
@@ -29,7 +29,7 @@ if (isset($videoUrl)) {
             }
         }
     } else {
-        $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Invalid YouTube Url");
+        $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::DANGER, "Invalid youtube Url");
     }
 } else {
     $_SESSION["msg"] = AlertBuilder::buildAlert(AlertType::WARNING, "Video Url is empty/null");

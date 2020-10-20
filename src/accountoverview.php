@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../public/css/bootstrap.css">
     <title>Account Overview</title>
     <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 
     if (!Auth::isLoggedIn()) {
         header("Location: index.php");
@@ -29,7 +29,7 @@
                 <button class="form-control btn-primary text-white" name="curPassword">Invites</button>
             </div>
         </form>
-        <form action="controller/Auth/changepassword.php" method="post">
+        <form action="controller/auth/changepassword.php" method="post">
             <div class="input-group mt-2">
                 <button class="form-control btn-danger text-white" name="curPassword">Change Password</button>
             </div>

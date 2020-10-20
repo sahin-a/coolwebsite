@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/utils/AlertBuilder.php");
 
 if (!Auth::isLoggedIn()) {
@@ -30,7 +30,7 @@ $user = $_SESSION["user"];
                 <form action="accountoverview.php">
                     <input class="btn btn-info m-2 p-2" type="submit" value="Account"/>
                 </form>
-                <form action="controller/Auth/logout.php">
+                <form action="controller/auth/logout.php">
                     <input class="btn btn-danger m-2 p-2" type="submit" value="Logout">
                 </form>
             </div>
@@ -47,7 +47,7 @@ $user = $_SESSION["user"];
         ?>
         <div class="container bg-secondary">
             <div class="row">
-                <form action="controller/YouTube/submitVideo.php" method="post">
+                <form action="controller/youtube/submitVideo.php" method="post">
                     <div class="input-group m-1 p-1">
                         <input type="text" class="form-control bg-dark text-white" name="videoUrl"
                                id="validationVideoUrl" placeholder="Video URL" required/>

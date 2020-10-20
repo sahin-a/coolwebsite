@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../public/css/bootstrap.css">
     <title>Change Password</title>
     <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/Auth/Auth.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 
     if (!Auth::isLoggedIn()) {
         header("Location: index.php");
@@ -23,7 +23,7 @@
             </div>
         </div>
     </form>
-    <form action="controller/Auth/changepassword.php" method="post">
+    <form action="controller/auth/changepassword.php" method="post">
         <div class="form-row m-1 p-1">
             <?php
             if (isset($_SESSION) && isset($_SESSION["msg"])) {
