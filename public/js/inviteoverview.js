@@ -25,6 +25,18 @@ function getInvites() {
             var html = inviteTableTag.html();
             html = null;
 
+            html = "<tr>\n" +
+                            "<td>\n" +
+                                "<label>User ID</label>\n" +
+                            "</td>\n" +
+                            "<td>\n" +
+                                "<label>Owner</label>\n" +
+                            "</td>\n" +
+                            "<td>\n" +
+                                "<label>Creation Date</label>\n" +
+                            "</td>\n" +
+                    "</tr>";
+
             if (invites.length > 0) {
                 invites.forEach(invite => {
                     html += "<tr>\n" +

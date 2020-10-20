@@ -24,14 +24,14 @@
         </div>
     </form>
     <div class="form-row m-1 p-1">
-        <form action="inviteoverview.php" method="post">
+        <form action="inviteoverview.php">
             <div class="input-group mt-2">
-                <button class="form-control btn-primary text-white" name="curPassword">Invites</button>
+                <button class="form-control btn-primary text-white">Invites</button>
             </div>
         </form>
-        <form action="controller/auth/changepassword.php" method="post">
+        <form action="controller/auth/changepassword.php">
             <div class="input-group mt-2">
-                <button class="form-control btn-danger text-white" name="curPassword">Change Password</button>
+                <button class="form-control btn-danger text-white">Change Password</button>
             </div>
         </form>
     </div>

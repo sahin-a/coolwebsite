@@ -33,7 +33,6 @@ CREATE TABLE commentSections (
 );
 
 CREATE TABLE invites (
-    id INT NOT NULL,
     invite_code VARCHAR(255),
     uid INT,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
