@@ -67,7 +67,7 @@ function getComments() {
         , data: {"id": videos[idx]["id"]}
         , success: function (data) {
             var comments = data["comments"];
-            var html = null;
+            var html = "";
 
             if (comments.length > 0) {
                 comments.forEach(comment => {

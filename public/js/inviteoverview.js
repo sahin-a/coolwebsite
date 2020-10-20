@@ -23,7 +23,6 @@ function getInvites() {
         , success: function (data) {
             var invites = data["invites"];
             var html = inviteTableTag.html();
-            html = null;
 
             html = "<tr>\n" +
                             "<td>\n" +
