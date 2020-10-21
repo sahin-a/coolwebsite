@@ -47,10 +47,10 @@ class Auth
     /**
      * @param string $username
      * @param string $password
-     * @param bool $inSession true = stores the user obj in the session | false = returns the user obj
+     * @param bool $storeInSession true = stores the user obj in the session | false = returns the user obj
      * @return array|bool
      */
-    public static function validate_credentials(string $username, string $password, bool $inSession = true)
+    public static function validate_credentials(string $username, string $password, bool $storeInSession = true)
     {
         if (isset($username) && isset($password)) {
             $query = "SELECT id, username, password FROM users WHERE username=?";
@@ -62,7 +62,7 @@ class Auth
 
             if (isset($storedHash) && password_verify($password, $storedHash)) {
                 $user = array("uid" => $uid, "username" => $username);
-                if ($inSession) {
+                if ($storeInSession) {
                     $_SESSION["user"] = $user;
                     return true;
                 }
