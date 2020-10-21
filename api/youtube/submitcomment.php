@@ -15,7 +15,7 @@ $comment = isset($_POST["comment"]) ? htmlspecialchars($_POST["comment"]) : null
 $con = DatabaseCollector::getInstance()->getConnection();
 $query = "INSERT INTO commentSections (id, username, comment) VALUES(?, ?, ?)";
 
-if (isset($id) && isset($username) && isset($comment)) {
+if (isset($id) && isset($username) && isset($comment) && ctype_space($comment)) {
     $result = DatabaseCollector::execute_sql_query($query, "iss", false, $id, $username, $comment);
 
     if ($result) {
