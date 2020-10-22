@@ -6,7 +6,6 @@ class JWTAuth
     public static function validate_token(string $bearerToken, string $secret): ?array
     {
         $bearerToken = explode(".", $bearerToken);
-
         $header = $bearerToken[0];
         $payload = $bearerToken[1];
         $signature = $bearerToken[2];
@@ -21,10 +20,5 @@ class JWTAuth
         }
 
         return null;
-    }
-
-    public static function is_expired(int $exp)
-    {
-        return time() > $exp; // exp = time() + expiresIn
     }
 }

@@ -9,10 +9,37 @@ class Token
     private ?int $exp;
     private ?int $expiresIn;
 
-    public function __construct()
+    private function __construct()
     {
-        $this->iat = time();
-        $this->setExpiresIn(3600);
+    }
+
+    public static function is_expired(int $exp)
+    {
+        return time() > $exp; // exp = time() + expiresIn
+    }
+
+    public static function createValidToken(string $uid, string $username) : Token
+    {
+        $token = new self;
+        $token->setUsername($username);
+        $token->setUid($uid);
+        $token->setIat(time());
+        $token->setExpiresIn(3600);
+        $token->setExp($token->getIat() + $token->getExpiresIn);
+
+        return $token;
+    }
+
+    public static function createToken(int $uid, string $username, int $iat, int $exp, int $expiresIn): Token
+    {
+        $token = new Token(false);
+        $token->setUid($uid);
+        $token->setUsername($username);
+        $token->setIat($iat);
+        $token->setExp($exp);
+        $token->setExpiresIn($expiresIn);
+
+        return $token;
     }
 
     /**
@@ -26,9 +53,8 @@ class Token
     /**
      * @param int|null $expiresIn
      */
-    public function setExpiresIn(int $expiresIn): void
+    private function setExpiresIn(int $expiresIn): void
     {
-        $this->exp = $this->iat + $expiresIn;
         $this->expiresIn = $expiresIn;
     }
 
@@ -43,7 +69,7 @@ class Token
     /**
      * @param int|null $uid
      */
-    public function setUid(int $uid): void
+    private function setUid(int $uid): void
     {
         $this->uid = $uid;
     }
@@ -59,7 +85,7 @@ class Token
     /**
      * @param string|null $username
      */
-    public function setUsername(string $username): void
+    private function setUsername(string $username): void
     {
         $this->username = $username;
     }
