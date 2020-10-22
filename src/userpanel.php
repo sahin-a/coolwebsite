@@ -101,7 +101,7 @@ $user = $_SESSION["user"];
                 </div>
                 <div class="row m-2 p-2">
                         <textarea id="commentBox" class="form-control bg-dark text-white"
-                                  placeholder="Enter your comment here" rows="2" wrap="hard" maxlength="255"></textarea>
+                                  placeholder="Enter your comment here" rows="2" wrap="hard" maxlength="255" required></textarea>
                     <button onclick="submitComment()" class="btn btn-info mt-2 p-2">submit</button>
                 </div>
             </div>
