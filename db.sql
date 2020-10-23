@@ -43,7 +43,8 @@ CREATE TABLE invites (
 
 CREATE TABLE rate_limiter (
     uid INT,
-    endpoint VARCHAR(64),    request_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    endpoint VARCHAR(255),
+    request_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (uid) REFERENCES users(id)
 );
 

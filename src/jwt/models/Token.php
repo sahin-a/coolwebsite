@@ -25,7 +25,7 @@ class Token
         $token->setUid($uid);
         $token->setIat(time());
         $token->setExpiresIn(3600);
-        $token->setExp($token->getIat() + $token->getExpiresIn);
+        $token->setExp($token->getIat() + $token->getExpiresIn());
 
         return $token;
     }
