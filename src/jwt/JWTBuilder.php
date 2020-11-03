@@ -26,6 +26,11 @@ class JWTBuilder
             "iat" => $this->token->getIat(), "exp" => $this->token->getExp()));
     }
 
+    /**
+     * converts the Token Object to the encoded JWT Token
+     * @param string $secret
+     * @return string
+     */
     public function build(string $secret): string
     {
         $header = $this->createHeader();

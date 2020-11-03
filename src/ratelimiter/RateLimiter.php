@@ -17,9 +17,10 @@ class RateLimiter
      * @param $requestLimitType : Check RequestLimitType Class for const
      * @return bool
      */
-    public function isRateLimited($requestLimitType) : bool
+    public function isRateLimited($requestLimitType): bool
     {
         if ($this->registerRequest()) {
+            // get count of entries younger than 1 hour
             $query = "SELECT COUNT(*) FROM rate_limiter WHERE uid=? AND request_date >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
             $types = "i";
 
@@ -33,7 +34,8 @@ class RateLimiter
         return false;
     }
 
-    public function registerRequest() : bool {
+    public function registerRequest(): bool
+    {
         $query = "INSERT INTO rate_limiter (uid, endpoint) VALUES(?, ?)";
         $types = "is";
 

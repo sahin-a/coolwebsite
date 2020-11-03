@@ -3,6 +3,12 @@
 
 class JWTAuth
 {
+    /**
+     *
+     * @param string $bearerToken the encoded jwt token
+     * @param string $secret secret needed to verify the signature header
+     * @return array|null returns payload as associative array on success
+     */
     public static function validate_token(string $bearerToken, string $secret): ?array
     {
         $bearerToken = explode(".", $bearerToken);
