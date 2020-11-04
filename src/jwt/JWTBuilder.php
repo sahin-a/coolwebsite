@@ -1,45 +1,54 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/models/Token.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/models/token/Payload.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/utils/JWTUtils.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/enums/JWTAlgs.php");
 
 class JWTBuilder
 {
-    private ?Token $token = null;
+    private Token $token;
+    private Header $header;
+    private Payload $payload;
 
-    /**
-     * JWTBuilder constructor.
-     * @param Token $token
-     */
     public function __construct(Token $token)
     {
         $this->token = $token;
+        $this->header = $token->getHeader();
+        $this->payload = $token->getPayload();
     }
 
-    private function createHeader(): string
+    private function convertHeader(): string
     {
-        return json_encode(array("alg" => "HS256", "typ" => "JWT"));
+        return json_encode(array(
+                "alg" => $this->token->getHeader()->getAlg(),
+                "typ" => $this->token->getHeader()->getTyp())
+        );
     }
 
-    private function createPayload(): string
+    private function convertPayload(): string
     {
-        return json_encode(array("uid" => $this->token->getUid(), "username" => $this->token->getUsername(),
-            "iat" => $this->token->getIat(), "exp" => $this->token->getExp()));
+        return json_encode(array(
+                "uid" => $this->payload->getUid(),
+                "username" => $this->payload->getUsername(),
+                "iat" => $this->payload->getIat(),
+                "exp" => $this->payload->getExp())
+        );
     }
 
     /**
-     * converts the Token Object to the encoded JWT Token
+     * converts the Payload Object to the encoded JWT Payload
      * @param string $secret
      * @return string
      */
     public function build(string $secret): string
     {
-        $header = $this->createHeader();
-        $payload = $this->createPayload();
+        $header = $this->convertHeader();
+        $payload = $this->convertPayload();
 
         $header = JWTUtils::base64url_encode($header);
         $payload = JWTUtils::base64url_encode($payload);
 
-        $signature = hash_hmac("sha256", $header . "." . $payload, $secret);
+        $signature = hash_hmac(JWTAlgs::parseAlgo($this->header->getAlg()),
+            $header . "." . $payload, $secret);
 
         return $header . "." . $payload . "." . $signature;
     }

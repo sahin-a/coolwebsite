@@ -1,45 +1,40 @@
 <?php
 
 
-class Token
+class Payload
 {
-    private ?int $uid;
-    private ?string $username;
-    private ?int $iat;
-    private ?int $exp;
-    private ?int $expiresIn;
+    private int $uid;
+    private string $username;
+    private int $iat;
+    private int $expiresIn;
+    private int $exp;
 
     private function __construct()
     {
     }
 
-    public static function is_expired(int $exp)
+    public static function createInstance($uid, $username, $iat, $expiresIn) : self
     {
-        return time() > $exp; // exp = time() + expiresIn
+        $payload = new self;
+        $payload->setUid($uid);
+        $payload->setUsername($username);
+        $payload->setIat($iat);
+        $payload->setExpiresIn($expiresIn);
+        $payload->setExp($payload->getIat() + $payload->getExpiresIn());
+
+        return $payload;
     }
 
-    public static function createValidToken(string $uid, string $username) : Token
+    public static function createValidPayload(int $uid, string $username, int $expiresIn = 3600) : self
     {
-        $token = new self;
-        $token->setUsername($username);
-        $token->setUid($uid);
-        $token->setIat(time());
-        $token->setExpiresIn(3600);
-        $token->setExp($token->getIat() + $token->getExpiresIn());
+        $payload = new self;
+        $payload->setUid($uid);
+        $payload->setUsername($username);
+        $payload->setIat(time());
+        $payload->setExpiresIn($expiresIn);
+        $payload->setExp($payload->getIat() + $payload->getExpiresIn());
 
-        return $token;
-    }
-
-    public static function createToken(int $uid, string $username, int $iat, int $exp, int $expiresIn): Token
-    {
-        $token = new Token(false);
-        $token->setUid($uid);
-        $token->setUsername($username);
-        $token->setIat($iat);
-        $token->setExp($exp);
-        $token->setExpiresIn($expiresIn);
-
-        return $token;
+        return $payload;
     }
 
     /**
@@ -51,7 +46,7 @@ class Token
     }
 
     /**
-     * @param int|null $expiresIn
+     * @param int $expiresIn
      */
     private function setExpiresIn(int $expiresIn): void
     {
@@ -67,7 +62,7 @@ class Token
     }
 
     /**
-     * @param int|null $uid
+     * @param int $uid
      */
     private function setUid(int $uid): void
     {
@@ -83,7 +78,7 @@ class Token
     }
 
     /**
-     * @param string|null $username
+     * @param string $username
      */
     private function setUsername(string $username): void
     {
@@ -99,7 +94,7 @@ class Token
     }
 
     /**
-     * @param int|null $iat
+     * @param int $iat
      */
     private function setIat(int $iat): void
     {
@@ -107,7 +102,7 @@ class Token
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getExp(): ?int
     {
@@ -115,7 +110,7 @@ class Token
     }
 
     /**
-     * @param int|null $exp
+     * @param int $exp
      */
     private function setExp(int $exp): void
     {

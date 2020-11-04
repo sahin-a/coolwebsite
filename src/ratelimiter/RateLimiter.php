@@ -27,7 +27,7 @@ class RateLimiter
             // TODO: create a system that clears entries older than 2 hours for all users automatically
             $count = DatabaseCollector::execute_sql_query($query, $types, true, $this->uid)[0];
 
-            if ($count >= RequestLimitType::DEFAULT_MAX_REQUESTS)
+            if ($count >= $requestLimitType)
                 return true;
         }
 

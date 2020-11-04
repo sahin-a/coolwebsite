@@ -7,24 +7,22 @@ class JWTAuth
      *
      * @param string $bearerToken the encoded jwt token
      * @param string $secret secret needed to verify the signature header
-     * @return array|null returns payload as associative array on success
+     * @return bool
      */
-    public static function validate_token(string $bearerToken, string $secret): ?array
+    public static function validate_token(string $bearerToken, string $secret): bool
     {
         $bearerToken = explode(".", $bearerToken);
         $header = $bearerToken[0];
         $payload = $bearerToken[1];
         $signature = $bearerToken[2];
 
-        $newSignature = hash_hmac("sha256", $header . "." . $payload, $secret);
+        $newSignature = hash_hmac(JWTAlgs::parseAlgo(JWTAlgs::HS256), $header . "." . $payload, $secret);
 
-        if (strcmp($signature, $newSignature) === 0) {
-            $payload = json_decode(JWTUtils::base64url_decode($payload), true);
+        // if the hash generated with the secret from the server differs from the one that's
+        // currently attached to the token, then it's invalid
+        if (strcmp($signature, $newSignature) === 0)
+            return true;
 
-            if ($payload)
-                return $payload;
-        }
-
-        return null;
+        return false;
     }
 }
