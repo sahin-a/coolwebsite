@@ -31,7 +31,7 @@ class Token
 
     public static function tokenToJwt(Token $token) : string
     {
-        $builder = new JWTBuilder($token);
+        $builder = new JWTConverter($token);
 
         return $builder->build(Secret::getSecret());
     }

@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/models/token/Payload.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/utils/JWTUtils.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/jwt/enums/JWTAlgs.php");
 
-class JWTBuilder
+class JWTConverter
 {
     private Token $token;
     private Header $header;

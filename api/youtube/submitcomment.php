@@ -1,7 +1,7 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/utils/AlertBuilder.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonMessage.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonEndpointMsg.php");
 
 if (!Auth::isLoggedIn()) {
     header("Location: index.php");

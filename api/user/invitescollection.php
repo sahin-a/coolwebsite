@@ -1,11 +1,11 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/databasecollection/DatabaseCollector.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/src/controller/auth/Auth.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonMessage.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/src/enums/JsonEndpointMsg.php");
 
 if (!Auth::isLoggedIn()) {
     http_response_code(401);
-    echo json_encode(array("message" => JsonMessage::UNAUTHORIZED));
+    echo json_encode(array("message" => JsonEndpointMsg::UNAUTHORIZED));
 } else {
     $id = $_SESSION["user"]["uid"];
 

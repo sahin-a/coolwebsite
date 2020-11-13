@@ -20,6 +20,7 @@ class RateLimiter
     public function isRateLimited($requestLimitType): bool
     {
         if ($this->registerRequest()) {
+
             // get count of entries younger than 1 hour
             $query = "SELECT COUNT(*) FROM rate_limiter WHERE uid=? AND request_date >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
             $types = "i";
